@@ -69,51 +69,34 @@ test_function <- function(a, b){
 
 test_function(2, 3)
 # second, now, let's get down to our our "isPerfectPower" function:
-# try for 10 lines of code 
 isPerfectPower <- function(result_number, power_number){
   for (x in 2:result_number){
-    result <- x**power_number #Q2: can I use the **?
+    result <- x**power_number 
     if (result == result_number){
       output_list <- list(isPerfect = TRUE, root = x)
-      output_list$isPerfect
-      output_list$root
-      return(output_list) # Q2: it stops here if I find the perfect root right?
+      return(output_list) 
     } 
   }
-  output_list$isPerfect
-  output_list$root
   output_list <- list(isPerfect = FALSE, root = NA)
   return(output_list)    
 }
 
-isPerfectPower <- function(result_number, power_number){
-  x <- exp((log(result_number))/(power_number))
-  if(x %% 1 < 0.0000000000000001) {
-  y <- x**(power_number)
-  diff_test <- result_number - y
-  if(diff_test<0.0000000000000001) {
-    output_list <- list(isPerfect = TRUE, root = x)
-    output_list
-  } else{
-    output_list <- list(isPerfect = FALSE, root = NA)
-    output_list
-  }} else{
-      output_list <- list(isPerfect = FALSE, root = NA)
-      output_list
-  }
-  }
-isPerfectPower(result_number = 125, power_number = 3)
+# third, let's do some testing
+isPerfectPower(result_number = 64, power_number = 5)
 
-x <- exp((log(25))/(2))
-
-5 %% 1 
-x %% 1
 ## b) Demonstrate your function works. Do so by writing another function “findRootPower” 
 ## which calls your first function, using a loop to identify both the root and power. 
 ## Your function should identify the lowest power for which the input is perfect 
 # I should think using the true in the for loop 
 findRootPower <- function(result_integer){
-  for (i in 2:result_integer){
-    isPerfectPower(result_integer, i)
+  for(i in 2:result_integer){
+    y <- isPerfectPower(result_integer, i)
+    test_Perfect <- y$isPerfect
+    test_Root <- y$root
+    if(test_Perfect==TRUE){
+      return(print(paste0(result_integer, " = ", test_Root,"^", i )))
+    }
   }
+  print("The input is not a perfect power.")
 }
+
