@@ -62,6 +62,7 @@ remove(class_1, class_2, class_3, q1_d_1, q1_d_2, q1_d_3)
 ## a) Write a function “isPerfectPower” to identify whether a given integer is a perfect power 
 ## for a given power. Do not use any existing functions to check this; do so with arithmetic.
 # first, let's write a test function to see if you get the gist:
+######## ADD ROXYGEN DOCUMENTATION HERE ########
 test_function <- function(a, b){
   c = a + b
   return (c)
@@ -69,25 +70,34 @@ test_function <- function(a, b){
 
 test_function(2, 3)
 # second, now, let's get down to our our "isPerfectPower" function:
-isPerfectPower <- function(result_number, power_number){
-  for (x in 2:result_number){
-    result <- x**power_number 
-    if (result == result_number){
-      output_list <- list(isPerfect = TRUE, root = x)
-      return(output_list) 
-    } 
+
+#' A function to identify whether a given integer is a perfect power for a given power
+#' 
+#' @param c the resulting integer from the operation
+#' @param b the given power
+#' @return a list of length 2 with the first entry a logical for whether c is a perfect 
+#' power for the given power and the second entry the root of the input
+#' @examples 
+#' isPerfectPower(4,2)
+#' isPerfectPower(1073741824,10)
+isPerfectPower <- function(c, b){
+  a <- exp((log(c))/(b))
+  closest_int <- round(a)
+  a_comp <- a - closest_int
+  if(a_comp < 0.00000000000001 && a_comp > -0.00000000000001){
+    output_list <- list(isPerfect = TRUE, root = a)
+    return(output_list)
   }
   output_list <- list(isPerfect = FALSE, root = NA)
-  return(output_list)    
+  return(output_list)  
 }
 
-# third, let's do some testing
-isPerfectPower(result_number = 64, power_number = 5)
 
 ## b) Demonstrate your function works. Do so by writing another function “findRootPower” 
 ## which calls your first function, using a loop to identify both the root and power. 
 ## Your function should identify the lowest power for which the input is perfect 
 # I should think using the true in the for loop 
+######## ADD ROXYGEN DOCUMENTATION HERE ########
 findRootPower <- function(result_integer){
   for(i in 2:result_integer){
     y <- isPerfectPower(result_integer, i)
@@ -100,3 +110,95 @@ findRootPower <- function(result_integer){
   print("The input is not a perfect power.")
 }
 
+## Use this new function to identify whether each of the following is a perfect power, 
+## and if so what its root and power is.
+findRootPower(27)
+#"27 = 3^3"
+findRootPower(13060694016)
+"13060694016 = 6^13"
+#"27 = 3^3"
+findRootPower(7776)
+#"7776 = 6^5"
+findRootPower(170859375)
+#"170859375 = 15^7"
+findRootPower(58247422)
+# TO DO
+#"27 = 3^3"
+findRootPower(94143178827)
+# TO DO
+#"27 = 3^3"
+
+### PROBLEM 3 - ChatGPT
+## a) Put the following prompt into ChatGPT (or your favorite other LLM) and copy its 
+## output (both the code it produces as well as any text it generates) into your submission. 
+## (If a non-ChatGPT LLM produces nonsense results, try ChatGPT. If that is still producing 
+## nonsense, let me know. Blockquotes might be useful for displaying this inside your Quarto 
+## document.)
+
+# Below is the output generated:
+
+
+```
+# Function to identify the name of a poker hand
+identify_poker_hand <- function(suits, ranks) {
+  if (length(unique(suits)) == 1 && max(ranks) - min(ranks) == 4) {
+    return("Straight Flush")
+  }
+  
+  if (length(table(ranks)) == 2) {
+    if (max(table(ranks)) == 4) {
+      return("Four of a Kind")
+    } else {
+      return("Full House")
+    }
+  }
+  
+  if (length(unique(suits)) == 1) {
+    return("Flush")
+  }
+  
+  if (max(ranks) - min(ranks) == 4) {
+    return("Straight")
+  }
+  
+  if (length(table(ranks)) == 3) {
+    if (max(table(ranks)) == 3) {
+      return("Three of a Kind")
+    } else {
+      return("Two Pair")
+    }
+  }
+  
+  if (length(table(ranks)) == 4) {
+    return("One Pair")
+  }
+  
+  return("High Card")
+}
+
+# Function to simulate dealing a round of poker
+deal_poker_round <- function(num_players) {
+  # Create a deck of cards
+  ranks <- c(2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace")
+  suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
+  deck <- expand.grid(Rank = ranks, Suit = suits)
+  
+  # Shuffle the deck
+  deck <- deck[sample(nrow(deck)), ]
+  
+  # Deal 5 cards to each player
+  players <- list()
+  for (i in 1:num_players) {
+    player_hand <- deck[((i - 1) * 5 + 1):(i * 5), ]
+    players[[i]] <- player_hand
+    cat("Player", i, "Hand:\n")
+    print(player_hand)
+    hand_name <- identify_poker_hand(player_hand$Suit, player_hand$Rank)
+    cat("Hand Name:", hand_name, "\n\n")
+  }
+}
+
+# Example usage:
+set.seed(123)  # Set a seed for reproducibility
+deal_poker_round(4)  # Simulate a round of poker with 4 players
+```
